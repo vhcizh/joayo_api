@@ -16,8 +16,13 @@ public class Member {
     @Column(name = "member_id")
     private Long id; // 멤버 id
 
+    @Column(unique = true, nullable = false)
     private String email;  // 이메일
+
+    @Column(nullable = false)
     private String nickname;    // 닉네임
+
+    @Column(nullable = false)
     private String password;    // 비밀번호
 
 }

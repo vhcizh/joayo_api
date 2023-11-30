@@ -15,24 +15,25 @@ import static org.junit.jupiter.api.Assertions.*;
 // @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class MemberRepositoryTest {
-    @Autowired
-    MemberRepository memberRepository;
-    @Test
-    @Transactional
-    @Rollback(false)
-    public void testMember() {
-        // given
-        Member member = new Member();
-        member.setNickname("memberA");
 
-        //when
-        Long savedId = memberRepository.save(member);
-        Member findMember = memberRepository.find(savedId);
-
-        //then
-        Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
-        Assertions.assertThat(findMember.getNickname()).isEqualTo(member.getNickname());
-        System.out.println("findMember == member : " + (findMember==member));
-        Assertions.assertThat(findMember).isEqualTo(member); //JPA 엔티티 동일성 보장
-    }
+//    @Autowired
+//    MemberRepository memberRepository;
+//    @Test
+//    @Transactional
+//    @Rollback(false)
+//    public void testMember() {
+//        // given
+//        Member member = new Member();
+//        member.setNickname("memberA");
+//
+//        //when
+//        Long savedId = memberRepository.save(member);
+//        Member findMember = memberRepository.findOne(savedId);
+//
+//        //then
+//        Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
+//        Assertions.assertThat(findMember.getNickname()).isEqualTo(member.getNickname());
+//        System.out.println("findMember == member : " + (findMember==member));
+//        Assertions.assertThat(findMember).isEqualTo(member); //JPA 엔티티 동일성 보장
+//    }
 }

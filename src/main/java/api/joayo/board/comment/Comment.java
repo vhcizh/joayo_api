@@ -1,7 +1,7 @@
 package api.joayo.board.comment;
 
 import api.joayo.board.posting.Posting;
-import api.joayo.board.BoardState;
+import api.joayo.board.State;
 import api.joayo.member.Member;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +33,7 @@ public class Comment {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "comment_state")
-    private BoardState state;
+    private State state;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")

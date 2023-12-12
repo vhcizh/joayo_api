@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -32,12 +33,24 @@ public class MemberService {
     }
 
     // 회원 전체 조회
-    public List<Member> findAll() {
+    public List<Member> findMembers() {
         return memberRepository.findAll();
     }
 
-    public Optional<Member> findOne(Long memberId) {
+    // 회원 한명 조회
+    public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
 
+    // 회원 수정
+    @Transactional
+    public void update(Long id, String nickname, String password) {
+        Member member = memberRepository.findOne(id);
+        member.setNickname(nickname);
+        member.setPassword(password);
+    }
+
+    public void delete(Long id) {
+//        memberRepository.delete();
+    }
 }

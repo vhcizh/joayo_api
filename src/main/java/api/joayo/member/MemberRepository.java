@@ -23,9 +23,8 @@ public class MemberRepository {
     }
 
     // 조회하기
-    public Optional<Member> findOne(Long id) {
-        Member member = em.find(Member.class, id); // (타입, pk) 1건 조회
-        return Optional.ofNullable(member);
+    public Member findOne(Long id) {
+        return em.find(Member.class, id); // (타입, pk) 1건 조회
     }
 
     // 모두 조회하기

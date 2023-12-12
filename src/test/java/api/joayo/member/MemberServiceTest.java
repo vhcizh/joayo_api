@@ -32,7 +32,7 @@ class MemberServiceTest {
         Long savedId = memberService.join(member);
 
         // then
-        Member findMember = memberRepository.findOne(savedId).get();
+        Member findMember = memberRepository.findOne(savedId);
         Assertions.assertThat(member).isEqualTo(findMember);
 //        assertEquals(member, memberRepository.findOne(savedId));
     }
@@ -42,9 +42,13 @@ class MemberServiceTest {
         // given
         Member member1 = new Member();
         member1.setEmail("member@gmail.com");
+        member1.setNickname("쿼티111");
+        member1.setPassword("pwd1234");
 
         Member member2 = new Member();
         member2.setEmail("member@gmail.com");
+        member2.setNickname("쿼티222");
+        member2.setPassword("pwd1234");
 
         // when
         memberService.join(member1);

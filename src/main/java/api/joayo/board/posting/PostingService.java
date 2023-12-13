@@ -29,13 +29,14 @@ public class PostingService {
 
     /**
      * 전체 글 조회
-     * @TO-DO:  검색조건  추가하기
+     * TODO:  검색조건  추가하기
      */
     public List<Posting> findAll() {
         return postingRepository.findAll();
     }
 
     // 한개 조회
+    @Transactional
     public Optional<Posting> findOne(Long postingId) {
         Posting posting = postingRepository.findOne(postingId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 글입니다."));
         posting.addView();

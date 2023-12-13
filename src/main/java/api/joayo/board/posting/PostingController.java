@@ -100,7 +100,7 @@ public class PostingController {
         private LocalDateTime postingDate;
         // state
 
-        public static PostingDTO create(Posting posting) {
+        private static PostingDTO create(Posting posting) {
             PostingDTO dto = new PostingDTO();
 
             dto.postingId = posting.getId();

@@ -24,8 +24,7 @@ public class MemberController {
     }
 
     @Data
-    class CreateMemberRequest {
-        private Long id; // 멤버 id
+    static class CreateMemberRequest {
         private String email;  // 이메일
         private String nickname;    // 닉네임
         private String password;    // 비밀번호

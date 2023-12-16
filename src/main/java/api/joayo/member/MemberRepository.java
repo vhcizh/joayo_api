@@ -34,9 +34,18 @@ public class MemberRepository {
 
     // 이메일로 조회하기
     public Optional<Member> findByEmail(String email) {
-        List<Member> result = em.createQuery("select m from Member m where email = :email", Member.class)
-                                .setParameter("email", email)
-                                .getResultList();
-        return result.stream().findAny();
+        return em.createQuery("select m from Member m where email = :email", Member.class)
+                .setParameter("email", email)
+                .getResultStream()
+                .findAny();
+    }
+
+    // 이메일과 비밀번호로 조회하기
+    public Optional<Member> findByEmailAndPassword(String email, String password) {
+        return em.createQuery("select m from Member m where email = :email and password = :password", Member.class)
+                .setParameter("email", email)
+                .setParameter("password", password)
+                .getResultStream()
+                .findAny();
     }
 }

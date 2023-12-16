@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     // 가입
     @PostMapping
@@ -52,10 +54,10 @@ public class MemberController {
     // 전체 회원 조회
     @GetMapping("/v2")
     public Result<List<MemberDTO>> findAllMembers() {
-        List<Member> findMembers =memberService.findMembers();
+        List<Member> findMembers = memberService.findMembers();
         List<MemberDTO> collect = findMembers.stream()
-                                            .map(m -> new MemberDTO(m.getId(), m.getEmail(), m.getNickname()))
-                                            .collect(Collectors.toList());
+                .map(m -> new MemberDTO(m.getId(), m.getEmail(), m.getNickname()))
+                .collect(Collectors.toList());
         return new Result<>(collect.size(), collect);
     }
 
@@ -100,5 +102,13 @@ public class MemberController {
 //    public void deleteAccount(@PathVariable Long id) {
 //        memberService.delete(id);
 //    }
+
+    // 로그인
+    @PostMapping("/login")
+    public Long login(@RequestBody Map<String, String> params) {
+        return memberRepository.findByEmailAndPassword(params.get("email"), params.get("password"))
+                                .orElseThrow(()-> new IllegalArgumentException("로그인 실패"))
+                                .getId();
+    }
 
 }

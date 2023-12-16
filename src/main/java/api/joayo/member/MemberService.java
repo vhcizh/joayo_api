@@ -28,7 +28,7 @@ public class MemberService {
 
     public void validateDuplicateMember(Member member) {
         memberRepository.findByEmail(member.getEmail()).ifPresent(x->{
-            throw new IllegalStateException("이미 존재하는 이메일입니다.");
+            throw new IllegalStateException(member.getEmail()+"는 이미 존재하는 이메일입니다.");
         });
     }
 

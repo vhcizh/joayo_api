@@ -2,10 +2,7 @@ package api.joayo.member;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter @Setter
@@ -25,11 +22,16 @@ public class Member {
     @Column(nullable = false)
     private String password;    // 비밀번호
 
+    @Enumerated(EnumType.STRING) // Enum 변경사항 발생시 꼬일 수 있으므로 String 타입으로 저장한다.
+    @Column(nullable = false)
+    private Authority authority;   // 권한 - 시큐리티 추가
+
     public static Member create(String email, String nickname, String password) {
         Member member = new Member();
         member.email = email;
         member.nickname = nickname;
         member.password = password;
+        member.authority = Authority.ROLE_ANONYMOUS;
         return member;
     }
 

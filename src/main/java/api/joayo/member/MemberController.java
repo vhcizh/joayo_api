@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -103,12 +102,5 @@ public class MemberController {
 //        memberService.delete(id);
 //    }
 
-    // 로그인
-    @PostMapping("/login")
-    public Long login(@RequestBody Map<String, String> params) {
-        return memberRepository.findByEmailAndPassword(params.get("email"), params.get("password"))
-                                .orElseThrow(()-> new IllegalArgumentException("로그인 실패"))
-                                .getId();
-    }
 
 }

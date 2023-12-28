@@ -1,24 +1,20 @@
 package api.joayo.security;
 
 import api.joayo.member.Member;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
-public class MemberDetails implements UserDetails {
+public class SecurityMember implements UserDetails {
 
     private final Member member;
 
-    public MemberDetails(Member member) {
+    public SecurityMember(Member member) {
         this.member = member;
-    }
-
-    public final Member getMember() {
-        return member;
     }
 
     @Override

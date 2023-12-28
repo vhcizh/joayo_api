@@ -20,7 +20,7 @@ public class MemberController {
     @PostMapping
     public CreateMemberResponse join(@RequestBody CreateMemberRequest request) {
         Member member = Member.create(request.getEmail(), request.getNickname(), request.getPassword());
-        Long id = memberService.join(member);
+        Long id = memberService.join1(member);
         return new CreateMemberResponse(id);
     }
 
@@ -55,7 +55,7 @@ public class MemberController {
     public Result<List<MemberDTO>> findAllMembers() {
         List<Member> findMembers = memberService.findMembers();
         List<MemberDTO> collect = findMembers.stream()
-                .map(m -> new MemberDTO(m.getId(), m.getEmail(), m.getNickname()))
+                .map(m -> new MemberDTO(m.getEmail(), m.getNickname(), m.getPassword()))
                 .collect(Collectors.toList());
         return new Result<>(collect.size(), collect);
     }
@@ -67,14 +67,6 @@ public class MemberController {
         private T data;
     }
 
-
-    @Data
-    @AllArgsConstructor
-    static class MemberDTO {
-        private Long id; // pk
-        private String email;  // 이메일
-        private String nickname;    // 닉네임
-    }
 
     // 수정
     @PatchMapping("/{id}")

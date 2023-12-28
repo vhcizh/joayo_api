@@ -1,17 +1,25 @@
 package api.joayo.member;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id; // 멤버 id
+
 
     @Column(unique = true, nullable = false)
     private String email;  // 이메일
@@ -31,8 +39,13 @@ public class Member {
         member.email = email;
         member.nickname = nickname;
         member.password = password;
-        member.authority = Authority.ROLE_ANONYMOUS;
+        member.authority = Authority.ROLE_MEMBER;
         return member;
+    }
+
+    public void updateNicknamePassword(String nickname, String password) {
+        this.nickname = nickname;
+        this.password = password;
     }
 
 }

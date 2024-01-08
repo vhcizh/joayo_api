@@ -19,7 +19,7 @@ public class MemberController {
     // 가입
     @PostMapping
     public CreateMemberResponse join(@RequestBody CreateMemberRequest request) {
-        Member member = Member.create(request.getEmail(), request.getNickname(), request.getPassword());
+        Member member = new Member(request.getEmail(), request.getNickname(), request.getPassword());
         Long id = memberService.join1(member);
         return new CreateMemberResponse(id);
     }

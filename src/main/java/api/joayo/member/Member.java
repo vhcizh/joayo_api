@@ -34,14 +34,17 @@ public class Member {
     @Column(nullable = false)
     private Authority authority;   // 권한 - 시큐리티 추가
 
-    public static Member create(String email, String nickname, String password) {
-        Member member = new Member();
-        member.email = email;
-        member.nickname = nickname;
-        member.password = password;
-        member.authority = Authority.ROLE_MEMBER;
-        return member;
+    public Member(String email, String nickname, String password) {
+        this(email, nickname, password, Authority.ROLE_MEMBER);
     }
+
+    public Member(String email, String nickname, String password, Authority role) {
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+        this.authority = role;
+    }
+
 
     public void updateNicknamePassword(String nickname, String password) {
         this.nickname = nickname;

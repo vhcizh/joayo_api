@@ -52,10 +52,7 @@ public class MemberService {
     @Transactional
     public Long join2(MemberDTO dto) {
         validateDuplicateMember(dto);
-        Member member = Member.create(dto.getEmail(),
-                dto.getNickname(),
-                encoder.encode(dto.getPassword())
-        );
+        Member member = new Member(dto.getEmail(), dto.getNickname(), encoder.encode(dto.getPassword()));
         memberRepository.save(member);
         return member.getId();
     }

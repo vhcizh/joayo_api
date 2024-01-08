@@ -26,7 +26,7 @@ public class LoginController {
      */
     @PostMapping("api/join/v1")
     public Long join1(@RequestBody CreateMemberRequest request) {
-        Member member = Member.create(request.getEmail(), request.getNickname(), request.getPassword());
+        Member member = new Member(request.getEmail(), request.getNickname(), request.getPassword());
         return memberService.join1(member);
     }
 

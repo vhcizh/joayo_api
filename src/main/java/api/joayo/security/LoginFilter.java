@@ -1,18 +1,22 @@
 package api.joayo.security;
 
 import api.joayo.security.jwt.JwtUtil;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 //@RequiredArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
@@ -45,7 +49,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 //        return authenticationManager.authenticate(authToken);
 //    }
 
-    //로그인 성공시 실행하는 메소드 (여기서 JWT를 발급하면 됨)
+    //로그인 성공시 실행하는 메소드 (여기서 JWT를 발급)
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
 
@@ -53,6 +57,17 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String token = jwtUtil.generateToken(authentication);
 
         response.addHeader("Authorization", "Bearer " + token);
+        response.setHeader("Access-Control-Expose-Headers", "Authorization");
+
+    }
+
+    // 로그인 실패시 예외 발생
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
+        System.out.println("=== login failed ===");
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//        throw failed;
+        throw new JwtException("로그인 실패");
     }
 
 

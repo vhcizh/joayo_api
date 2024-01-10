@@ -7,9 +7,11 @@ import api.joayo.security.JpaSecurityMemberService;
 import api.joayo.security.LoginFilter;
 import api.joayo.security.jwt.JwtFilter;
 import api.joayo.security.jwt.JwtUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -58,6 +60,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(req -> req
                         .antMatchers("/api/login/**","/api/join/**", "/api/members/**").permitAll()
+                        .antMatchers(HttpMethod.GET,"/api/board/**").permitAll()
                         .anyRequest().authenticated());  // .anyRequest().authenticated()
 
 
@@ -80,7 +83,7 @@ public class SecurityConfig {
         http.cors(cors-> new CorsConfiguration());
 
         // filter chain exception handler 추가
-        http.addFilterBefore(new FilterChainExceptionHandler(), LogoutFilter.class);
+        http.addFilterBefore(new FilterChainExceptionHandler(new ObjectMapper()), LogoutFilter.class);
 
         return http.build();
     }

@@ -22,7 +22,7 @@ class PostingServiceTest {
     @Test
     public void 글쓰기() {
         //given
-        Member member = Member.create("email@gmail.com", "nickname", "pwd111");
+        Member member = new Member("email@gmail.com", "nickname", "pwd111");
 //         em.persist(member);
         Posting posting = Posting.create(member, "글제목111", "글내용11111");
         em.persist(posting);
@@ -37,7 +37,7 @@ class PostingServiceTest {
     @Test
     public void 글삭제() {
         //given
-        Member member = Member.create("email@gmail.com", "nickname", "pwd111");
+        Member member = new Member("email@gmail.com", "nickname", "pwd111");
         Posting posting = Posting.create(member, "글제목111", "글내용11111");
         Long postingId = postingService.write(posting);
 
@@ -53,7 +53,7 @@ class PostingServiceTest {
     @Test
     public void 글수정() {
         //given
-        Member member = Member.create("email@gmail.com", "nickname", "pwd111");
+        Member member = new Member("email@gmail.com", "nickname", "pwd111");
         Posting posting = Posting.create(member, "글제목111", "글내용11111");
         Long postingId = postingService.write(posting);
 

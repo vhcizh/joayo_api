@@ -1,6 +1,7 @@
 package api.joayo.board.posting;
 
 import api.joayo.member.Member;
+import api.joayo.member.MemberRepository;
 import api.joayo.member.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,12 +18,12 @@ import java.util.stream.Collectors;
 public class PostingController {
 
     private final PostingService postingService;
-    private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     // 등록
     @PostMapping("/postings")
     public WritePostingResponse writePosting(@RequestBody WritePostingRequest request) {
-        Member member = memberService.findOne(request.getWriterId());
+        Member member = memberRepository.findByEmail(request.getEmail()).orElseThrow();
         Posting posting = Posting.create(member, request.getTitle(), request.getContents());
         Long id = postingService.write(posting);
         return new WritePostingResponse(id);
@@ -30,7 +31,7 @@ public class PostingController {
 
     @Data
     static class WritePostingRequest {
-        private Long writerId;
+        private String email;
         private String title;
         private String contents;
     }
@@ -91,7 +92,8 @@ public class PostingController {
     @Data
     static class PostingDTO {
         private Long postingId;
-        private String writer;
+        private String nickname;
+        private String email;
         private String title;
         private String contents;
         private int viewCount;
@@ -104,7 +106,8 @@ public class PostingController {
             PostingDTO dto = new PostingDTO();
 
             dto.postingId = posting.getId();
-            dto.writer = posting.getWriter().getNickname();
+            dto.nickname = posting.getWriter().getNickname();
+            dto.email = posting.getWriter().getEmail();
             dto.title = posting.getTitle();
             dto.contents = posting.getContents();
             dto.viewCount = posting.getViewCount();

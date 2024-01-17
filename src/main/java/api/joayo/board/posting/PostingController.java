@@ -2,13 +2,12 @@ package api.joayo.board.posting;
 
 import api.joayo.member.Member;
 import api.joayo.member.MemberRepository;
-import api.joayo.member.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,25 +61,19 @@ public class PostingController {
         private Long id;
     }
 
-//    // 삭제
-//    @DeleteMapping("/postings/{postingId}")
-//    public void deletePosting(@PathVariable Long postingId) {
-//        postingService.delete(postingId);
-//    }
+    // 삭제
+    @DeleteMapping("/postings/{postingId}")
+    public void deletePosting(@PathVariable Long postingId) {
+        postingService.delete(postingId);
+    }
 
     // 목록 조회
-//    @GetMapping("/postings")
-//    public List<Posting> postingList() {
-//        return postingService.findAll();
-//    }
-
     @GetMapping("/postings")
     public Result<List<PostingDTO>>  postingList() {
-        List<Posting> findPostings = postingService.findAll();
-        List<PostingDTO> collect = findPostings.stream()
+        List<PostingDTO> postingDTOList = postingService.findAll().stream()
                 .map(PostingDTO::create)
                 .collect(Collectors.toList());
-        return new Result<>(collect);
+        return new Result<>(postingDTOList);
     }
 
     @Data
@@ -99,7 +92,7 @@ public class PostingController {
         private int viewCount;
         private int commentCount;
         private int likeCount;
-        private LocalDateTime postingDate;
+        private String postingDate;
         // state
 
         private static PostingDTO create(Posting posting) {
@@ -113,7 +106,8 @@ public class PostingController {
             dto.viewCount = posting.getViewCount();
             dto.commentCount = posting.getCommentCount();
             dto.likeCount = posting.getLikeCount();
-            dto.postingDate = posting.getPostingDate();
+            dto.postingDate = posting.getPostingDate().format(
+                    DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
 
             return dto;
         }
@@ -123,8 +117,17 @@ public class PostingController {
     // 상세페이지
     @GetMapping("/postings/{postingId}")
     public Result<PostingDTO> getPosting(@PathVariable Long postingId) {
-        PostingDTO dto = postingService.findOne(postingId).map(PostingDTO::create).orElseGet(PostingDTO::new);
-        return new Result<>(dto);
+        return new Result<>(
+                postingService.findOne(postingId)
+                    .map(PostingDTO::create)
+                    .orElseGet(PostingDTO::new)
+        );
+    }
+
+    // 조회수 증가
+    @PostMapping("/postings/{postingId}")
+    public void addView(@PathVariable Long postingId) {
+        postingService.addView(postingId);
     }
 
 }

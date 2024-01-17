@@ -1,9 +1,6 @@
 package api.joayo.board.posting;
 
-import api.joayo.member.Member;
-import api.joayo.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +36,12 @@ public class PostingService {
     @Transactional
     public Optional<Posting> findOne(Long postingId) {
         Posting posting = postingRepository.findOne(postingId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 글입니다."));
-        posting.addView();
         return Optional.of(posting);
+    }
+
+    @Transactional
+    public void addView(Long postingId) {
+        postingRepository.findOne(postingId).ifPresent(Posting::addView);
     }
 
     // 수정

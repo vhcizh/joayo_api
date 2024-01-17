@@ -3,20 +3,14 @@ package api.joayo.security.jwt;
 import api.joayo.security.SecurityMember;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.util.Arrays;
 import java.util.Date;
 
 @Component
@@ -35,7 +29,7 @@ public class JwtUtil {
         secretKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private static final long TOKEN_VALID_TIME = 1000 * 60 * 5L; // 토큰 유효시간 5분
+    private static final long TOKEN_VALID_TIME = 1000 * 60 * 10L; // 토큰 유효시간 10분
 
 
     public String generateToken(Authentication authentication) {

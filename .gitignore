@@ -8,6 +8,9 @@ build/
 ### secret key ###
 application.properties
 
+### aws key pair ###
+linux_keypair.pem
+
 ### STS ###
 .apt_generated
 .classpath

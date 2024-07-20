@@ -31,7 +31,7 @@ public class PostingRepository {
 
     // 모두 조회하기 - 검색조건  추가하기 (State.DELETED, UPLOADED, MODIFIED
     public List<Posting> findAll() {
-        return em.createQuery("select p from Posting p", Posting.class)
+        return em.createQuery("select p from Posting p where p.state != 'DELETED' order by p.id desc", Posting.class)
                 .getResultList();
     }
 

@@ -4,7 +4,7 @@ name: CI
 # 시작 조건 : 'origin'에 푸시할 때마다
 on:
   push:
-    branches: [origin]
+    branches: [master]
 
 jobs:
   build:

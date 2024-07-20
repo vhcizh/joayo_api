@@ -19,8 +19,7 @@ public class MemberController {
     // 가입
     @PostMapping
     public CreateMemberResponse join(@RequestBody CreateMemberRequest request) {
-        Member member = new Member(request.getEmail(), request.getNickname(), request.getPassword());
-        Long id = memberService.join1(member);
+        Long id = memberService.join2(new MemberDTO(request.getEmail(), request.getNickname(), request.getPassword()));
         return new CreateMemberResponse(id);
     }
 

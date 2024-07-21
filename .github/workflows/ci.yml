@@ -20,8 +20,8 @@ jobs:
 
       - name: Set up environment variables
         run: |
-          echo "JOAYO_AWS_IP_ADDRESS=${{ secrets.JOAYO_AWS_IP_ADDRESS }}" >> $GITHUB_ENV
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+#          echo "JOAYO_AWS_IP_ADDRESS=${{ secrets.JOAYO_AWS_IP_ADDRESS }}" >> $GITHUB_ENV
+#          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
           echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> $GITHUB_ENV
           echo "KEY_STORE_PASSWORD=${{ secrets.KEY_STORE_PASSWORD }}" >> $GITHUB_ENV
 

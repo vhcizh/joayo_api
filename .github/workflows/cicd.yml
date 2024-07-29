@@ -52,7 +52,7 @@ jobs:
           CURRENT_DATE=$(date +%Y%m%d)
           
           # backup 디렉토리가 없다면 생성한다
-          ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'mkdir -p "$REMOTE_PATH/backup" "$REMOTE_PATH/logs"'
+          ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'sudo mkdir -p "$REMOTE_PATH/backup" "$REMOTE_PATH/logs"'
 
           # 기존 JAR 파일이 실행 중인지 확인하고 중지
           ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'if pgrep -f "joayo"; then

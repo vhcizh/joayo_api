@@ -45,29 +45,36 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.EC2_KEY }}
 
-      # JAR 파일을 EC2 서버로 복사
-      - name: Copy JAR to EC2
+      # backup 디렉토리가 없다면 생성한다
+      - name: Create backup and logs directories
         run: |
-          # 현재 날짜 가져오기
-          CURRENT_DATE=$(date +%Y%m%d)
-          
-          # backup 디렉토리가 없다면 생성한다
           ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'sudo mkdir -p "$REMOTE_PATH/backup" "$REMOTE_PATH/logs"'
 
-          # 기존 JAR 파일이 실행 중인지 확인하고 중지
+      # 기존 JAR 파일이 실행 중인지 확인하고 중지
+      - name: Stop existing application
+        run: |
           ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'if pgrep -f "joayo"; then
             echo "Stopping existing joayo application";
             pkill -f "joayo";
           fi'
-          
-          # 기존 JAR 파일을 backup 디렉토리로 이동
+
+      # 기존 JAR 파일을 backup 디렉토리로 이동
+      - name: Backup existing JAR file
+        run: |
           ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'if ls "$REMOTE_PATH/*joayo*.jar" 1> /dev/null 2>&1; then
             echo "Backing up existing JAR file";
             mv "$REMOTE_PATH/*joayo*.jar" "$REMOTE_PATH/backup/";
           fi'
-          
-          # 새로운 JAR 파일 이름 변경 후 복사
+
+      # 새로운 JAR 파일 이름 변경 후 복사
+      - name: Copy new JAR file to EC2 and Run
+        run: |
+          CURRENT_DATE=$(date +%Y%m%d)
           scp -o StrictHostKeyChecking=no build/libs/*.jar $EC2_USER@$EC2_HOST:"$REMOTE_PATH/joayo_${CURRENT_DATE}.jar"
+          ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'sudo nohup java -jar "$REMOTE_PATH/joayo_'$CURRENT_DATE'.jar" > "$REMOTE_PATH/logs/app.log" 2>&1 &'
+ 
           
-          # 새로운 JAR 파일 실행
-          ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'nohup java -jar "$REMOTE_PATH/joayo_'$CURRENT_DATE'.jar" > "$REMOTE_PATH/logs/app.log" 2>&1 &'
+          
+          
+          
+          

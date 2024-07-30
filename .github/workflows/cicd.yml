@@ -46,7 +46,7 @@ jobs:
       # ec2 접속 테스트
       - name: Test SSH connection
         run: |
-          ssh -v -i ${{ secrets.EC2_KEY }} -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "echo 'SSH connection successful!'"
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "echo 'SSH connection successful!'"
 
       # ssh-action : EC2 SSH 키 추가 및 설정
       - name: Add SSH key and run commands

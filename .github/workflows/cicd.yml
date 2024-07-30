@@ -54,9 +54,11 @@ jobs:
       - name: Stop existing application
         run: |
           ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'if pgrep -f "joayo"; then
-            echo "Stopping existing joayo application";
-            pkill -f "joayo";
-          fi'
+          echo "Stopping existing joayo application";
+          pkill -f "joayo" && echo "joayo application stopped successfully." || echo "Failed to stop joayo application.";
+          else
+          echo "No joayo application is running.";
+          fi' 
 
       # 기존 JAR 파일을 backup 디렉토리로 이동
       - name: Backup existing JAR file

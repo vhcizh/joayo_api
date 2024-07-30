@@ -41,7 +41,7 @@ jobs:
 
       # ssh-action : EC2 SSH 키 추가 및 설정
       - name: Add SSH key and run commands
-        uses: ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.0.3
         with:
           key: ${{ secrets.EC2_KEY }} # ec2 pem key
           host: ${{ secrets.EC2_HOST }} # ec2 IP

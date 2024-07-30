@@ -37,6 +37,12 @@ jobs:
       - name: Run tests
         run: ./gradlew test
 
+      # ssh-agent : EC2 SSH 키
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.EC2_KEY }}
+
       # ec2 접속 테스트
       - name: Test SSH connection
         run: |

@@ -45,9 +45,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.EC2_KEY }}
 
-      # JAR 파일을 EC2 서버로 복사하기
-      # 현재 날짜 가져오기
-
       # backup 디렉토리가 없다면 생성한다
       - name: Create backup and logs directories
         run: |

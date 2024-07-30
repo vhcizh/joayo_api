@@ -13,8 +13,6 @@ jobs:
     # GitHub Secrets에서 환경 변수 사용
     env:
       JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }} # JWT 비밀키
-#      EC2_USER: ${{ secrets.EC2_USER }}  # EC2 사용자 이름
-#      EC2_HOST: ${{ secrets.EC2_HOST }}  # EC2 호스트 IP
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }} # DB 접속 암호
       KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }} # KEY STORE 암호
       REMOTE_PATH: ${{ secrets.REMOTE_PATH }} # EC2 서버 배포 경로

@@ -67,13 +67,14 @@ jobs:
             sudo mkdir -p "$REMOTE_PATH/backup" "$REMOTE_PATH/logs" && echo "Directories created successfully" || echo "Failed to create directories"
             
             # 기존 JAR 파일이 실행 중인지 확인하고 중지
-            if pgrep -f "joayo"; then
+            if jps | grep "joayo"; then
               echo "Stopping existing joayo application"
-              pkill -f "joayo"
+              jps | grep "joayo" | awk '{print $1}' | xargs kill
             else
-            echo "No existing joayo application is running"
+              echo "No existing joayo application is running"
             fi
-            
+  
+
             # 기존 JAR 파일을 backup 디렉토리로 이동
             if ls "$REMOTE_PATH"/*joayo*.jar 1> /dev/null 2>&1; then
               echo "Backing up existing JAR file"

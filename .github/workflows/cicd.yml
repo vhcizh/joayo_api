@@ -62,7 +62,7 @@ jobs:
           username: ${{ secrets.EC2_USER }} # ec2 우분투 유저
           envs: REMOTE_PATH # Pass environment variable to shell script
           script_stop: true
-          run: |
+          script: |
             # backup 디렉토리가 없다면 생성한다
             sudo mkdir -p "$REMOTE_PATH/backup" "$REMOTE_PATH/logs" && echo "Directories created successfully" || echo "Failed to create directories"
             

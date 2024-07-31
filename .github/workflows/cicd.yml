@@ -68,8 +68,10 @@ jobs:
             
             # 기존 JAR 파일이 실행 중인지 확인하고 중지
             if pgrep -f "joayo"; then
-              echo "Stopping existing joayo application";
-              pkill -f "joayo";
+              echo "Stopping existing joayo application"
+              pkill -f "joayo"
+            else
+            echo "No existing joayo application is running"
             fi
             
             # 기존 JAR 파일을 backup 디렉토리로 이동

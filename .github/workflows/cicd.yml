@@ -5,6 +5,9 @@ name: CI/CD
 on:
   push:
     branches: [master]
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
@@ -46,19 +49,22 @@ jobs:
       # ec2 접속 테스트
       - name: Test SSH connection
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "echo 'SSH connection successful!'"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "echo 'SSH connection successful!'"
 
       # ssh-action : EC2 SSH 키 추가 및 설정
       - name: Add SSH key and run commands
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          REMOTE_PATH: ${{ secrets.REMOTE_PATH }} # EC2 서버 배포 경로
         with:
           key: ${{ secrets.EC2_KEY }} # ec2 pem key
           host: ${{ secrets.EC2_HOST }} # ec2 IP
           username: ${{ secrets.EC2_USER }} # ec2 우분투 유저
-
+          envs: REMOTE_PATH # Pass environment variable to shell script
+          script_stop: true
           run: |
             # backup 디렉토리가 없다면 생성한다
-            sudo mkdir -p "$REMOTE_PATH/backup" "$REMOTE_PATH/logs"
+            sudo mkdir -p "$REMOTE_PATH/backup" "$REMOTE_PATH/logs" && echo "Directories created successfully" || echo "Failed to create directories"
             
             # 기존 JAR 파일이 실행 중인지 확인하고 중지
             if pgrep -f "joayo"; then

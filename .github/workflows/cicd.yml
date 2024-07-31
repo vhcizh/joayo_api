@@ -73,9 +73,10 @@ jobs:
             
             # 기존 JAR 파일이 실행 중인지 확인하고 중지
             echo "기존 JAR 파일 찾기"
-            if jps | grep "joayo"; then
+            if pgrep -f "java.*joayo" > /dev/null; then
               echo "Stopping existing joayo application"
-              jps | grep "joayo" | awk '{print $1}' | xargs -t kill
+              pkill -f "java.*joayo"
+              sleep 5  # 프로세스가 완전히 종료될 때까지 대기
             else
               echo "No existing joayo application is running"
             fi

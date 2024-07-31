@@ -73,9 +73,11 @@ jobs:
             fi
             
             # 기존 JAR 파일을 backup 디렉토리로 이동
-            if ls "$REMOTE_PATH/*joayo*.jar" 1> /dev/null 2>&1; then
-              echo "Backing up existing JAR file";
-              mv "$REMOTE_PATH/*joayo*.jar" "$REMOTE_PATH/backup/";
+            if ls "$REMOTE_PATH"/*joayo*.jar 1> /dev/null 2>&1; then
+              echo "Backing up existing JAR file"
+              mv "$REMOTE_PATH"/*joayo*.jar "$REMOTE_PATH/backup/"
+            else
+            echo "No existing joayo application in app directory"
             fi
             
             # 새로운 JAR 파일 이름 변경 후 복사

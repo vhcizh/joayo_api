@@ -4,7 +4,9 @@ name: CI/CD
 # 시작 조건 : 'master'에 푸시할 때마다
 on:
   push:
-    branches: [master]
+    branches:
+      - master
+      - cicd
   pull_request:
     branches:
       - master
@@ -63,6 +65,11 @@ jobs:
           envs: REMOTE_PATH # Pass environment variable to shell script
           script_stop: true
           script: |
+            # 실행 환경 확인
+            java -version
+            echo $JAVA_HOME
+            jps
+            
             # backup 디렉토리가 없다면 생성한다
             sudo mkdir -p "$REMOTE_PATH/backup" "$REMOTE_PATH/logs" && echo "Directories created successfully" || echo "Failed to create directories"
             

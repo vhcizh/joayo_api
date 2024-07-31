@@ -7,9 +7,9 @@ on:
     branches:
       - master
       - cicd
-  pull_request:
-    branches:
-      - master
+#  pull_request:
+#    branches:
+#      - master
 
 jobs:
   build:
@@ -66,10 +66,45 @@ jobs:
           script_stop: true
           script: |
             # 실행 환경 확인
-            java -version
-            echo $JAVA_HOME
-            jps
+            #!/bin/bash
+
+            # Print current user and working directory
+            echo "Current user: $(whoami)"
+            echo "Current directory: $(pwd)"
             
+            # Print environment variables
+            echo "Environment variables:"
+            env
+            
+            # Print Java version and location
+            echo "Java version:"
+            java -version 2>&1
+            echo "Java location: $(which java)"
+            
+            # Print jps location and version
+            echo "jps location: $(which jps)"
+            echo "jps version:"
+            jps -v
+            
+            # List processes (this might require sudo)
+            echo "Current processes:"
+            ps aux | grep java
+            
+            # Original script with added error handling and verbose output
+            if jps -l | grep "joayo"; then
+            echo "Stopping existing joayo application"
+            jps -l | grep "joayo" | awk '{print $1}' | xargs -t kill
+            else
+            echo "No existing joayo application is running"
+            fi
+            
+            # Print exit status
+            echo "Exit status: $?"
+            
+            # Try to run jps with full path
+            echo "Trying jps with full path:"
+            /usr/bin/jps -l | grep "joayo" || echo "jps failed or no joayo process found"
+                        
             # backup 디렉토리가 없다면 생성한다
             sudo mkdir -p "$REMOTE_PATH/backup" "$REMOTE_PATH/logs" && echo "Directories created successfully" || echo "Failed to create directories"
             

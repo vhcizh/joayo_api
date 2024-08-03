@@ -30,7 +30,7 @@ jobs:
           java-version: '11'
 
       - name: application.properties 파일 생성
-        run: echo "${{ secrets.JOAYO_PROPERTIES }}" > ./src/main/resources/application.properties
+        run: printf "%s" "${{ secrets.JOAYO_PROPERTIES }}" > ./src/main/resources/application.properties
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew

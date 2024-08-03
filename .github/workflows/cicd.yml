@@ -17,6 +17,9 @@ jobs:
       EC2_HOST: ${{ secrets.EC2_HOST }}
       EC2_USER: ${{ secrets.EC2_USER }}
       REMOTE_PATH: ${{ secrets.REMOTE_PATH }} # EC2 서버 배포 경로
+      # src/test/resources/application.properties 용 환경 변수
+      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+      KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
     # 실행 스텝 지정
     steps:
@@ -32,8 +35,6 @@ jobs:
       - name: application.properties 파일 생성
         run: |
           printf "%s" "${{ secrets.JOAYO_PROPERTIES }}" > ./src/main/resources/application.properties  
-          cat ./src/main/resources/application.properties  # 파일 내용 출력
-          ls -l ./src/main/resources/  # 해당 디렉토리의 파일 목록 출력
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew

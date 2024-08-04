@@ -78,7 +78,7 @@ jobs:
           "
 
       # 새로운 JAR 파일 이름 변경 후 복사
-      - name: Upload new joayo file on EC2 server
+      - name: Upload new joayo file on EC2 server and Execute App
         run: |
           CURRENT_DATE=$(date +%Y%m%d)
           CURRENT_MONTH=$(date +%Y%m)
@@ -87,4 +87,4 @@ jobs:
           # jar 파일 ec2 서버로 이동
           scp -o StrictHostKeyChecking=no build/libs/*.jar "$EC2_USER@$EC2_HOST:$REMOTE_PATH/joayo_${CURRENT_DATE}.jar"
           # jar 파일 실행 및 로그 위치 지정
-          ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "nohup java -jar $REMOTE_PATH/joayo_${CURRENT_DATE}.jar > $REMOTE_PATH/logs/$CURRENT_MONTH/app_${CURRENT_DATE}.log 2>&1 &"
+          ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "nohup sudo java -jar $REMOTE_PATH/joayo_${CURRENT_DATE}.jar > $REMOTE_PATH/logs/$CURRENT_MONTH/app_${CURRENT_DATE}.log 2>&1 &"
